@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#3d0a25"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <title>Happy Birthday, My Love 💕</title>
+  <link rel="stylesheet" href="birthday.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Sacramento&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loading-screen">
+    <div class="loading-flowers">
+      <div class="load-flower" style="--d:0s">🌸</div>
+      <div class="load-flower" style="--d:.2s">🌺</div>
+      <div class="load-flower" style="--d:.4s">🌸</div>
+      <div class="load-flower" style="--d:.6s">🌺</div>
+      <div class="load-flower" style="--d:.8s">🌸</div>
+    </div>
+    <p class="loading-text">Preparing something special for you…</p>
+    <div class="loading-bar"><div class="loading-fill"></div></div>
+  </div>
+
+  <!-- CURSOR TRAIL CANVAS (hidden by JS) -->
+  <canvas id="cursor-canvas"></canvas>
+
+  <!-- FLOATING PARTICLES CANVAS (hidden by JS) -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- MUSIC PLAYER -->
+  <div id="music-player" class="hidden">
+    <div class="music-inner">
+      <div class="music-art">🎵</div>
+      <div class="music-info">
+        <span class="music-title" id="music-title">Romantic Serenade</span>
+        <span class="music-artist">Our Playlist ♥</span>
+      </div>
+      <div class="music-controls">
+        <button id="prev-btn" title="Previous">⏮</button>
+        <button id="play-btn" title="Play/Pause">▶</button>
+        <button id="next-btn" title="Next">⏭</button>
+      </div>
+      <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.5" />
+    </div>
+  </div>
+
+  <!-- AUTOPLAY PROMPT (shown on first interaction) -->
+  <div id="autoplay-prompt" class="hidden">
+    <div class="autoplay-inner">
+      <span>🎵</span>
+      <p>Tap to start the music</p>
+      <button id="autoplay-ok">Start ♥</button>
+    </div>
+  </div>
+
+  <!-- ========== SECTION 1: INTRO ========== -->
+  <section id="intro-section" class="section full-screen">
+    <div class="flower-bg-anim" aria-hidden="true"></div>
+    <div class="sparkle-field" id="intro-sparkles"></div>
+    <div class="intro-content">
+      <div class="intro-subtitle">✨ A special surprise just for you ✨</div>
+      <h1 class="intro-heading">Someone special has a<br/><em>surprise waiting for her…</em></h1>
+      <p class="intro-msg">Close your eyes for a moment, take a deep breath,<br/>and let your heart feel every word that follows.</p>
+      <button class="gift-btn" id="open-gift-btn">
+        <span class="gift-icon">🎁</span> Open My Birthday Gift
+      </button>
+    </div>
+    <div class="floating-hearts-intro" id="intro-hearts"></div>
+    <div class="thumbelina-row bottom-flowers" id="bottom-flowers"></div>
+  </section>
+
+  <!-- ========== SECTION 2: ENVELOPE LETTER ========== -->
+  <section id="envelope-section" class="section full-screen hidden-section">
+    <div class="section-bg-gradient"></div>
+    <div class="envelope-wrapper">
+      <div class="envelope" id="envelope" title="Click to open">
+        <div class="env-body">
+          <div class="env-flap" id="env-flap"></div>
+          <div class="env-heart">💌</div>
+        </div>
+        <p class="env-hint">Click to open your letter…</p>
+      </div>
+      <div class="letter-card hidden" id="letter-card">
+        <div class="letter-inner">
+          <div class="letter-header">🌸 My Madamy Baby Wife 🌸</div>
+          <p class="letter-body" id="letter-body"></p>
+          <div class="letter-actions">
+            <button class="skip-btn hidden" id="skip-typing-btn">⏩ Read all at once</button>
+          </div>
+          <div class="letter-sig">— Forever Yours, with all my heart ♥</div>
+          <button class="next-btn hidden" id="next-to-timeline">Next Memory →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SECTION 3: MEMORY TIMELINE ========== -->
+  <section id="timeline-section" class="section hidden-section">
+    <div class="section-title-wrap">
+      <h2 class="section-title">Our Beautiful Story</h2>
+      <p class="section-sub">Every moment with you is a treasure I'll hold forever</p>
+    </div>
+    <div class="timeline" id="timeline">
+
+      <div class="timeline-item left reveal-item">
+        <div class="timeline-dot">💗</div>
+        <div class="polaroid-card">
+          <div class="polaroid-img" style="background:#ffd6e8">
+            <img src="picture/photo1.jpeg" alt="Memory 1">
+          </div>
+          <div class="polaroid-caption">
+            <span class="mem-date">📅 July 23, 2024</span>
+            <p>First send mo ng picture sakin hehe. Nang iinggit pa porket nauna mag graduate HAHAHAHAHAHA ✨</p>
+          </div>
+          <div class="heart-react">❤️</div>
+        </div>
+      </div>
+
+      <div class="timeline-item right reveal-item">
+        <div class="timeline-dot">💗</div>
+        <div class="polaroid-card">
+          <div class="polaroid-img" style="background:#fce4ec">
+            <img src="picture/photo2.jpg" alt="Memory 2">
+          </div>
+          <div class="polaroid-caption">
+            <span class="mem-date">📅 December 11, 2024</span>
+            <p>Our first official picture HAHAHHHAAHA. Di kasi natutuloy ung pag pic natin puro us
+              plan ng picture hanggang sa nakakalimutan parin. Pero ayan ang first official picture natin!
+              I love youuu! 🌸</p>
+          </div>
+          <div class="heart-react">❤️</div>
+        </div>
+      </div>
+
+      <div class="timeline-item left reveal-item">
+        <div class="timeline-dot">💗</div>
+        <div class="polaroid-card">
+          <div class="polaroid-img" style="background:#f8bbd0">
+            <img src="picture/photo3.jpeg" alt="Memory 3">
+          </div>
+          <div class="polaroid-caption">
+            <span class="mem-date">📅 December 18, 2024</span>
+            <p>Our First Monthsary baby! I love youuuuu!!🗺️</p>
+          </div>
+          <div class="heart-react">❤️</div>
+        </div>
+      </div>
+
+      <div class="timeline-item right reveal-item">
+        <div class="timeline-dot">💗</div>
+        <div class="polaroid-card">
+          <div class="polaroid-img" style="background:#fde8f0">
+            <video src="picture/vid1.mp4" alt="Memory 4" controls></video>
+          </div>
+          <div class="polaroid-caption">
+            <span class="mem-date">📅 January 27, 2025</span>
+            <p>First punta mo sa bahay baby, eto ung time na nipakilala din kita sakanila po personally mwehehhe!💫</p>
+          </div>
+          <div class="heart-react">❤️</div>
+        </div>
+      </div>
+
+      <div class="timeline-item left reveal-item">
+        <div class="timeline-dot">💗</div>
+        <div class="polaroid-card">
+          <div class="polaroid-img" style="background:#ffd6e8">
+            <img src="picture/photo5.jpeg" alt="Memory 5">
+          </div>
+          <div class="polaroid-caption">
+            <span class="mem-date">📅 February 14, 2025</span>
+            <p>Our first Valentine's Day together! I love youuu! 🌸</p>
+          </div>
+          <div class="heart-react">❤️</div>
+        </div>
+      </div>
+
+      <div class="timeline-item right reveal-item">
+        <div class="timeline-dot">💗</div>
+        <div class="polaroid-card">
+          <div class="polaroid-img" style="background:#ffd6e8">
+            <img src="picture/photo6.jpeg" alt="Memory 6">
+          </div>
+          <div class="polaroid-caption">
+            <span class="mem-date">📅 May 7, 2025</span>
+            <p>First time natin pumunta ng KKV, at ayon andami nating nabili mwehehhe 🌺</p>
+          </div>
+          <div class="heart-react">❤️</div>
+        </div>
+      </div>
+
+      <div class="timeline-item left reveal-item">
+        <div class="timeline-dot">💗</div>
+        <div class="polaroid-card">
+          <div class="polaroid-img" style="background:#ffd6e8">
+            <img src="picture/photo7.jpeg" alt="Memory 7">
+          </div>
+          <div class="polaroid-caption">
+            <span class="mem-date">📅 May 28, 2025</span>
+            <p>Eto naman ung firt time natin makapunta ng SM North Edsa and first time rin natin mag Photobooth thereee!🌺</p>
+          </div>
+          <div class="heart-react">❤️</div>
+        </div>
+      </div>
+
+      <div class="timeline-item right reveal-item">
+        <div class="timeline-dot">💗</div>
+        <div class="polaroid-card">
+          <div class="polaroid-img" style="background:#ffd6e8">
+            <img src="picture/photo8.jpeg" alt="Memory 8">
+          </div>
+          <div class="polaroid-caption">
+            <span class="mem-date">📅 November 18, 2025</span>
+            <p>Our First Anniversary mahal! Dami natin here nakain HAHHAHAHA, dito rin natin na try ung mga chicken wings sa pizza hutttt! 🌺</p>
+          </div>
+          <div class="heart-react">❤️</div>
+        </div>
+      </div>
+
+      <div class="timeline-item left reveal-item">
+        <div class="timeline-dot">💗</div>
+        <div class="polaroid-card">
+          <div class="polaroid-img" style="background:#ffd6e8">
+            <img src="picture/photo9.jpeg" alt="Memory 9">
+          </div>
+          <div class="polaroid-caption">
+            <span class="mem-date">📅 December 22, 2025</span>
+            <p>Early Christmas Date natin together!!! 🌺</p>
+          </div>
+          <div class="heart-react">❤️</div>
+        </div>
+      </div>
+
+      <div class="timeline-item right reveal-item">
+        <div class="timeline-dot">💗</div>
+        <div class="polaroid-card">
+          <div class="polaroid-img" style="background:#ffd6e8">
+            <img src="picture/photo10.jpeg" alt="Memory 10">
+          </div>
+          <div class="polaroid-caption">
+            <span class="mem-date">📅 December 25, 2025</span>
+            <p>Christmas Day with you! U got here your very first owned Sunnies Flask mo baby! I love you to the moon and back! 🌺</p>
+          </div>
+          <div class="heart-react">❤️</div>
+        </div>
+      </div>
+
+      <div class="timeline-item left reveal-item">
+        <div class="timeline-dot">💗</div>
+        <div class="polaroid-card">
+          <div class="polaroid-img" style="background:#ffd6e8">
+            <img src="picture/photo11.jpeg" alt="Memory 11">
+          </div>
+          <div class="polaroid-caption">
+            <span class="mem-date">📅 April 21, 2026</span>
+            <p>First eat natin sa Chick Chicken mwehhehe so sarappppp! 🌺</p>
+          </div>
+          <div class="heart-react">❤️</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="section-nav">
+      <button class="next-btn" id="next-to-reasons">Next: Why I Love You →</button>
+    </div>
+  </section>
+
+  <!-- ========== SECTION 4: REASONS I LOVE YOU ========== -->
+  <section id="reasons-section" class="section hidden-section">
+    <div class="section-title-wrap">
+      <h2 class="section-title">Reasons I Love You</h2>
+      <p class="section-sub">Tap each heart to discover a reason (Finish each line before tapping another hehe!) 💕</p>
+    </div>
+    <div class="reasons-grid" id="reasons-grid">
+      <div class="reason-card" data-reason="I love you because your smile instantly calms my heart and makes everything feel okay.">💗</div>
+      <div class="reason-card" data-reason="I love you because you choose to stay during my good days and even during my difficult moments.">🌸</div>
+      <div class="reason-card" data-reason="I love you because your presence feels like home, comfort, and peace all at once.">✨</div>
+      <div class="reason-card" data-reason="I love you because you make me want to become a better person every day.">💖</div>
+      <div class="reason-card" data-reason="I love you because you accept my insecurities, my flaws and still choose to stay beside me.">🌺</div>
+      <div class="reason-card" data-reason="I love you because every time I imagine my future, ikaw agad ang nakikita ko.">🦋</div>
+      <div class="reason-card" data-reason="I love you because no matter how stressful life gets, talking to you makes everything lighter.">💝</div>
+      <div class="reason-card" data-reason="I love you because you are not just my girlfriend — you are my best friend, my comfort person, and my favorite human.">🌷</div>
+      <div class="reason-card" data-reason="I love you because you became part of my prayers and future dreams.">💖</div>
+      <div class="reason-card" data-reason="I love you because I can imagine growing old with you.">🎁</div>
+      <div class="reason-card" data-reason="I love you because you inspire me to work harder for our future.">🦋</div>
+      <div class="reason-card" data-reason=" Baby, there are so many reasons why I love you, and honestly, I think I’ll never get tired of discovering more every single day. I love you because you make my world feel lighter and happier without even trying. I love you because your smile instantly melts my heart and your voice feels like comfort after a long day. I love you because you stayed with me during my worst moments and still chose to love me gently.
+
+I love you because you understand me in ways nobody else can. Kahit minsan hindi ko ma-explain sarili ko, somehow naiintindihan mo pa rin ako. I love you because your presence alone already gives me peace. You became my safe place, my comfort person, and my favorite human all at once.
+
+I love you because even your smallest efforts mean so much to me — your “ingat ka,” your “kumain ka na ba,” your random updates, your lambing, your little inis moments, and even your kulit. Everything about you feels precious to me. I love you because you make ordinary moments feel special. Kahit simpleng usap lang natin, sobrang saya ko na agad.
+
+I love you because you make me want to become a better person. You inspire me to work harder, dream bigger, and love deeper. I love you because with you, love feels genuine, soft, and real. Hindi pilit, hindi nakakapagod — it just feels right.
+
+I love you because every future I imagine somehow always includes you. Ikaw yung gusto kong makasama sa simpleng bagay, sa late-night talks, random dates, road trips, hanggang sa pagtanda. I love you because no matter how many people I meet in this world, my heart still chooses you every single time.
+
+And most importantly, I love you simply because you are you. Your flaws, your imperfections, your softness, your attitude, your heart, your smile, your soul — everything about you became something I cherish deeply. You are not just someone I love, baby… you are the person my heart feels safest with. Happy birthday mahallll!!💖
+ ">💞</div>
+    </div>
+    <div class="reason-reveal hidden" id="reason-reveal">
+      <div class="reason-text" id="reason-text"></div>
+    </div>
+    <div class="section-nav">
+      <button class="next-btn" id="next-to-countdown">Next: Our Clock →</button>
+    </div>
+  </section>
+
+  <!-- ========== SECTION 5: COUNTDOWN & CLOCK ========== -->
+  <section id="countdown-section" class="section hidden-section">
+    <div class="section-title-wrap">
+      <h2 class="section-title">Moments in Time</h2>
+      <p class="section-sub">Every second with you is precious</p>
+    </div>
+    <div class="clocks-wrap">
+      <div class="clock-card glow-card">
+        <div class="clock-label">⏱ Time Since We Met</div>
+        <div class="clock-display" id="time-together">Loading…</div>
+        <div class="clock-sub">days · hours · minutes · seconds</div>
+      </div>
+      <div class="clock-card glow-card">
+        <div class="clock-label">🎂 Your Birthday</div>
+        <div class="clock-display bday-display" id="birthday-display">TODAY IS YOUR DAY!</div>
+        <div class="clock-sub">Celebrate every second ✨</div>
+      </div>
+      <div class="clock-card glow-card">
+        <div class="clock-label">🕐 Right Now</div>
+        <div class="clock-display" id="live-clock">--:--:--</div>
+        <div class="clock-sub" id="live-date">Loading…</div>
+      </div>
+    </div>
+    <div class="section-nav">
+      <button class="next-btn" id="next-to-surprise">Next: Your Surprise →</button>
+    </div>
+  </section>
+
+  <!-- ========== SECTION 6: SURPRISE GIFT ========== -->
+  <section id="surprise-section" class="section hidden-section">
+    <div class="section-title-wrap">
+      <h2 class="section-title">Your Special Surprise</h2>
+      <p class="section-sub">Complete the challenge to unlock your gift 🎁</p>
+    </div>
+    <div class="gift-challenge" id="gift-challenge">
+      <p class="challenge-inst">Click the hearts in order: 1 → 2 → 3 → 4 → 5</p>
+      <div class="challenge-hearts" id="challenge-hearts">
+        <button class="ch-heart" data-order="3">💗</button>
+        <button class="ch-heart" data-order="1">💗</button>
+        <button class="ch-heart" data-order="5">💗</button>
+        <button class="ch-heart" data-order="2">💗</button>
+        <button class="ch-heart" data-order="4">💗</button>
+      </div>
+      <div class="challenge-progress" id="challenge-progress">
+        <span class="cp-dot" id="cp1">○</span>
+        <span class="cp-dot" id="cp2">○</span>
+        <span class="cp-dot" id="cp3">○</span>
+        <span class="cp-dot" id="cp4">○</span>
+        <span class="cp-dot" id="cp5">○</span>
+      </div>
+    </div>
+    <div class="gift-box-wrap" id="gift-box-wrap">
+      <div class="gift-box" id="gift-box">
+        <div class="gift-lid" id="gift-lid">🎁</div>
+        <div class="gift-base">✨</div>
+      </div>
+    </div>
+    <div class="surprise-reveal hidden" id="surprise-reveal">
+      <div class="surprise-card glow-card">
+        <div class="surprise-quote">"In a world of billions, my heart found only one. You."</div>
+        <div class="surprise-msg">
+          <p>🌸 My love, this gift isn't wrapped in ribbons or tied with a bow — it's wrapped in every silent prayer I've said for your happiness, and tied with every moment I've held your hand and thought <em>"I never want to let go."</em></p>
+          <p>On this birthday, I want you to know: <strong>you are the best thing that has ever happened to me.</strong></p>
+          <p>🌷 Baby, hindi ko alam kung paano ko sisimulan ito dahil kahit gaano kahaba ang sabihin ko, parang hindi pa rin sapat para maiparamdam kung gaano kita kamahal. Pero sa espesyal na araw na ito, gusto kong malaman mo kung gaano mo binago ang buhay ko. Dumating ka sa panahon na hindi ko inaasahan, at hindi ko namalayan na unti-unti mo nang pinupuno ng saya ang mga araw ko. Mula nang makilala kita, naging mas makulay ang mundo ko. Ang mga simpleng bagay na dati ay okay lang, naging espesyal dahil kasama ka na sa bawat alaala ko.</p>
+
+<p>💖 Paborito ko pa rin yung mga pagkakataong tumatawa ka nang todo. Yung tipong hindi mo mapigilan ang sarili mo at napapangiti na lang din ako habang nakatingin sa'yo. Sa totoo lang, isa sa mga paborito kong tanawin sa buong mundo ang ngiti mo. Kapag masaya ka, parang masaya na rin ang puso ko. At kapag malungkot ka, gusto kong gawin ang lahat para lang makita ulit ang mga mata mong kumikislap habang nakangiti.</p>
+
+<p>✨ Alam mo ba na sobrang saya ako sa kung anong meron tayo ngayon? You give me strength in everything, ga. You are actually one of my biggest hopes and one of my greatest blessings. Sa tuwing napapagod ako, ikaw yung isa sa mga dahilan kung bakit nagpapatuloy pa rin ako. Kapag may mga araw na hindi maganda ang takbo ng lahat, sapat na minsan na makausap ka para gumaan ang pakiramdam ko.</p>
+
+<p>💕 Salamat dahil lagi kang nandiyan. Salamat sa pagmamahal, pag-unawa, at sa lahat ng maliliit na bagay na ginagawa mo para mapasaya ako. Hindi mo siguro alam pero sobrang laki ng epekto mo sa buhay ko. Mas naging masaya ako, mas naging motivated ako, at mas naging buo ako dahil sa'yo. Pinaparamdam mo sa akin araw-araw kung ano ang ibig sabihin ng tunay na pagmamahal.</p>
+
+<p>🌸 At habang tumatagal, mas lalo kong nakikita ang future ko kasama ka. Gusto kong maranasan pa natin ang mas marami pang memories, mas marami pang tawanan, mas marami pang date, mas marami pang adventures, at mas marami pang birthdays na sabay nating  icecelebrate. Gusto kong maging bahagi ng lahat ng pangarap mo at gusto kong ikaw rin ang kasama ko habang tinutupad ko ang akin.</p>
+
+<p>💗 Kaya ngayong birthday mo, gusto kong malaman mo na isa ka sa pinakamagandang biyayang natanggap ko sa buong buhay ko. Kung may isang bagay na hihilingin ako, iyon ay ang patuloy kitang mapasaya at mapangiti sa mga susunod pang taon. Dahil kung may taong gusto kong piliin araw-araw, paulit-ulit, at habang-buhay—ikaw iyon.</p>
+
+<p>🎂 Happy Birthday, baby. Mahal na mahal kita. Higit pa sa mga salitang kaya kong sabihin, higit pa sa mga mensaheng kaya kong isulat, at higit pa sa paraan kung paano ko maipapakita araw-araw. Ikaw ang pinakamagandang nangyari sa buhay ko, at sana sa bawat tibok ng puso ko, maramdaman mo kung gaano kita kamahal. 💖🌷✨</p>
+        </div>
+        <div class="surprise-img-wrap">
+          <img src="picture/surprise.jpeg" alt="Our photo">  
+        </div>
+      </div>
+    </div>
+    <div class="section-nav hidden" id="surprise-nav">
+      <button class="next-btn" id="next-to-gallery">See Our Gallery →</button>
+    </div>
+  </section>
+
+  <!-- ========== SECTION 7: GALLERY ========== -->
+  <section id="gallery-section" class="section hidden-section">
+    <div class="section-title-wrap">
+      <h2 class="section-title">Our Gallery of Us</h2>
+    </div>
+    <div class="gallery-grid" id="gallery-grid">
+      <div class="gallery-item" data-caption="The beginning of everything ✨">
+        <img src="picture/photo2.jpg" alt="Photo 1">
+      </div>
+      <div class="gallery-item tall" data-caption="Para bang Mom and Dad! 🌸">
+        <img src="picture/gallery1.jpeg" alt="Photo 2">
+      </div>
+      <div class="gallery-item" data-caption="Cutee sooo muchhhh! 🗺️">
+        <img src="picture/gallery3.jpeg" alt="Photo 3">
+      </div>
+      <div class="gallery-item wide" data-caption="Our First SM North Date! 💖">
+        <img src="picture/gallery2.jpeg" alt="Photo 4">
+      </div>
+      <div class="gallery-item" data-caption="I love youuuu 🌺">
+        <img src="picture/gallery6.jpeg" alt="Photo 5">
+      </div>
+      <div class="gallery-item" data-caption="So prettyyyyyyy gandaaa! 💝">
+        <img src="picture/gallery9.jpeg" alt="Photo 6">
+      </div>
+      <div class="gallery-item tall" data-caption="Sexy in uniform bebi! 🦋"> 
+        <img src="picture/gallery7.jpeg" alt="Photo 7">
+      </div>
+      <div class="gallery-item" data-caption="Sleepwell and baby ko 📖">
+        <img src="picture/gallery8.jpeg" alt="Photo 8">
+      </div>
+    </div>
+    <!-- LIGHTBOX -->
+    <div class="lightbox hidden" id="lightbox">
+      <div class="lightbox-overlay" id="lb-overlay"></div>
+      <div class="lightbox-inner">
+        <button class="lb-close" id="lb-close">✕</button>
+        <div class="lb-img-wrap" id="lb-img-wrap"></div>
+        <div class="lb-caption" id="lb-caption"></div>
+      </div>
+    </div>
+    <div class="section-nav">
+      <button class="next-btn" id="next-to-ending">The Finale →</button>
+    </div>
+  </section>
+
+  <!-- ========== SECTION 8: ENDING ========== -->
+  <section id="ending-section" class="section full-screen hidden-section">
+    <canvas id="fireworks-canvas"></canvas>
+    <div class="ending-stars" id="ending-stars"></div>
+    <div class="ending-lanterns" id="ending-lanterns"></div>
+    <div class="ending-content">
+      <div class="ending-flowers" id="ending-flowers"></div>
+      <h1 class="ending-title">Happy Birthday,<br/>
+        <!-- REPLACE "My Love ❤️" with her actual name -->
+        <span class="ending-name">My Love ❤️</span>
+      </h1>
+      <p class="ending-msg">
+        "Thank you for every memory, every smile,<br/>and every single moment with you."
+      </p>
+      <p class="ending-sub">You are my sunrise, my calm, my greatest adventure, and everything.<br/>May this year bring you everything you deserve — which is the entire universe. 🌸</p>
+      <div class="ending-hearts" id="ending-hearts"></div>
+      <div class="ending-actions">
+        <button class="gift-btn replay-btn" id="replay-btn">
+          🔄 Replay Our Story
+        </button>
+      </div>
+    </div>
+    <div class="thumbelina-row ending-bottom-flowers" id="ending-bottom"></div>
+  </section>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="birthday.js"></script>
+</body>
+</html>
