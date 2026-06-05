@@ -526,6 +526,57 @@ a { color: inherit; text-decoration: none; }
   color: var(--pink-pale); font-style: italic; line-height: 1.8;
 }
 
+/* ---- REASON POPUP MODAL ---- */
+.reason-modal {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; pointer-events: none;
+  animation: fadeIn 0.3s ease;
+}
+.reason-modal.hidden { display: none; }
+.reason-modal-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+  pointer-events: auto;
+  animation: fadeIn 0.3s ease;
+}
+.reason-modal-content {
+  position: relative; z-index: 10;
+  background: linear-gradient(135deg, rgba(61,10,37,0.95) 0%, rgba(124,31,80,0.95) 100%);
+  border: 1.5px solid rgba(244,114,160,0.4);
+  border-radius: 28px; padding: 40px 32px;
+  max-width: 90vw; width: 500px; max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(232,82,122,0.3), 0 0 40px rgba(244,114,160,0.2);
+  pointer-events: auto;
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.reason-modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 36px; height: 36px;
+  background: rgba(244,114,160,0.2);
+  border: 1px solid rgba(244,114,160,0.4);
+  border-radius: 50%;
+  color: var(--pink-soft); font-size: 1.2rem;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.reason-modal-close:hover {
+  background: rgba(244,114,160,0.4);
+  transform: rotate(90deg) scale(1.1);
+}
+.reason-modal #reason-text {
+  font-family: var(--ff-body); font-size: 1.2rem;
+  color: var(--pink-pale); font-style: italic; line-height: 1.8;
+  margin: 0;
+  animation: fadeUp 0.5s ease;
+}
+@keyframes popIn {
+  0% { transform: scale(0.85) translateY(-20px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
 /* ============================================
    SECTION 5 — COUNTDOWN
    ============================================ */
@@ -869,6 +920,8 @@ a { color: inherit; text-decoration: none; }
   .reason-card  { font-size: 2rem; border-radius: 16px; }
   .reason-reveal { padding: 20px 18px; }
   .reason-text  { font-size: 1rem; }
+  .reason-modal-content { width: calc(100vw - 40px); max-width: 500px; padding: 32px 24px; }
+  .reason-modal #reason-text { font-size: 1.1rem; }
   .clocks-wrap { flex-direction: column; align-items: stretch; gap: 16px; }
   .clock-card  { min-width: unset; width: 100%; padding: 24px 20px; }
   .clock-display { font-size: 1.2rem; }
@@ -916,6 +969,9 @@ a { color: inherit; text-decoration: none; }
   .polaroid-caption p { font-size: 0.82rem; }
   .reasons-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .reason-card  { font-size: 1.7rem; }
+  .reason-modal-content { width: calc(100vw - 30px); max-width: 95vw; padding: 28px 20px; border-radius: 20px; }
+  .reason-modal #reason-text { font-size: 1rem; }
+  .reason-modal-close { width: 32px; height: 32px; font-size: 1rem; }
   .clock-display { font-size: 1rem; letter-spacing: 0.01em; }
   .bday-display  { font-size: 1.3rem; }
   .clock-label   { font-size: 0.8rem; }
@@ -974,4 +1030,219 @@ a { color: inherit; text-decoration: none; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.2s !important;
   }
+}
+/* ============================================
+   PASSCODE SCREEN — Add to birthday.css
+   ============================================ */
+
+#passcode-screen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(160deg, #0d0008 0%, #2d0018 35%, #5c1a3a 65%, #2d0018 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 11000;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+  overflow: hidden;
+}
+#passcode-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.passcode-bg-anim {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 20% 80%, rgba(232,82,122,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(244,114,160,0.14) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 50%, rgba(201,116,140,0.1) 0%, transparent 70%);
+  animation: bgShimmer 6s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.passcode-floating-petals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.passcode-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 20px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  animation: fadeUp 0.9s ease 0.2s both;
+}
+.passcode-icon {
+  font-size: 3rem;
+  animation: floatDot 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 14px rgba(244,114,160,0.6));
+  margin-bottom: 4px;
+}
+.passcode-title {
+  font-family: var(--ff-script);
+  font-size: clamp(2rem, 8vw, 2.8rem);
+  color: var(--white);
+  text-shadow: 0 0 30px var(--glow-pink);
+  line-height: 1.2;
+  margin: 0;
+}
+.passcode-subtitle {
+  font-family: var(--ff-body);
+  font-style: italic;
+  font-size: clamp(0.88rem, 3.5vw, 1rem);
+  color: rgba(255, 210, 230, 0.8);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Dots display */
+.passcode-dots {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  margin: 8px 0 4px;
+}
+.pdot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(255, 240, 245, 0.15);
+  border: 2px solid rgba(244, 114, 160, 0.5);
+  display: inline-block;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.pdot.filled {
+  background: var(--pink-mid);
+  border-color: var(--pink-deep);
+  transform: scale(1.15);
+  box-shadow: 0 0 10px rgba(244, 114, 160, 0.6);
+}
+.pdot.error {
+  background: #e05577;
+  border-color: #c9405f;
+  animation: shakeX 0.4s ease;
+}
+
+/* Error message */
+.passcode-error {
+  font-family: var(--ff-body);
+  font-size: 0.9rem;
+  color: #ff9ab8;
+  background: rgba(232, 82, 122, 0.15);
+  border: 1px solid rgba(232, 82, 122, 0.35);
+  border-radius: 30px;
+  padding: 8px 20px;
+  animation: fadeUp 0.3s ease;
+}
+.passcode-error.hidden { display: none; }
+
+/* Keypad grid */
+.passcode-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 280px;
+  margin: 4px 0;
+}
+.pk-btn {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(255, 240, 245, 0.1);
+  border: 1.5px solid rgba(244, 114, 160, 0.3);
+  color: var(--white);
+  font-family: var(--ff-display);
+  font-size: clamp(1.2rem, 5vw, 1.5rem);
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.15s, box-shadow 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  min-width: 56px;
+  min-height: 56px;
+}
+.pk-btn:hover {
+  background: rgba(232, 82, 122, 0.22);
+  border-color: rgba(244, 114, 160, 0.6);
+  box-shadow: 0 0 16px rgba(244, 114, 160, 0.3);
+}
+.pk-btn:active {
+  transform: scale(0.9);
+  background: rgba(232, 82, 122, 0.35);
+}
+.pk-clear {
+  font-size: clamp(1rem, 4vw, 1.2rem);
+  color: rgba(255, 200, 220, 0.7);
+}
+.pk-enter {
+  font-size: clamp(1.3rem, 5vw, 1.6rem);
+  background: rgba(232, 82, 122, 0.2);
+  border-color: rgba(232, 82, 122, 0.5);
+}
+.pk-enter:hover {
+  background: rgba(232, 82, 122, 0.4);
+  box-shadow: 0 0 20px rgba(232, 82, 122, 0.45);
+}
+
+/* Shake animation for wrong code */
+@keyframes shakeX {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+.passcode-keypad.shake {
+  animation: shakeX 0.45s ease;
+}
+/* Hint text */
+.passcode-hint {
+  font-family: var(--ff-body);
+  font-style: italic;
+  font-size: clamp(0.78rem, 3vw, 0.88rem);
+  color: rgba(255, 180, 210, 0.5);
+  margin: 0;
+}
+
+/* Success bloom */
+@keyframes successBloom {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+.passcode-icon.success {
+  animation: successBloom 0.5s ease;
+  filter: drop-shadow(0 0 24px rgba(244, 114, 160, 1));
+}
+
+/* ---- Responsive tweaks ---- */
+@media (max-width: 400px) {
+  .passcode-container { padding: 24px 16px; gap: 14px; }
+  .passcode-keypad { gap: 10px; max-width: 260px; }
+  .pk-btn { min-width: 50px; min-height: 50px; }
+  .passcode-dots { gap: 14px; }
+  .pdot { width: 16px; height: 16px; }
+}
+@media (max-width: 340px) {
+  .passcode-keypad { gap: 8px; max-width: 240px; }
+  .pk-btn { min-width: 46px; min-height: 46px; font-size: 1.1rem; }
+}
+@media (max-height: 640px) {
+  .passcode-container { gap: 10px; padding: 16px; }
+  .passcode-icon { font-size: 2.2rem; margin-bottom: 0; }
+  .passcode-title { font-size: 1.8rem; }
+  .passcode-keypad { gap: 8px; }
+  .pk-btn { min-width: 50px; min-height: 50px; }
 }
