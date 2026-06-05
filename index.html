@@ -12,6 +12,41 @@
 </head>
 <body>
 
+    <!-- ========== PASSCODE SCREEN ========== -->
+  <div id="passcode-screen">
+    <div class="passcode-bg-anim" aria-hidden="true"></div>
+    <div class="passcode-floating-petals" id="passcode-petals"></div>
+    <div class="passcode-container">
+      <div class="passcode-icon">🔐</div>
+      <h1 class="passcode-title">For You My Love</h1>
+      <p class="passcode-subtitle">Enter your birthdate in numbers to see your surprise ✨</p>
+      <div class="passcode-dots" id="passcode-dots">
+        <span class="pdot" id="pdot-0"></span>
+        <span class="pdot" id="pdot-1"></span>
+        <span class="pdot" id="pdot-2"></span>
+        <span class="pdot" id="pdot-3"></span>
+        <span class="pdot" id="pdot-4"></span>
+        <span class="pdot" id="pdot-5"></span>
+      </div>
+      <div class="passcode-error hidden" id="passcode-error">💔 Wrong code, try again!</div>
+      <div class="passcode-keypad" id="passcode-keypad">
+        <button class="pk-btn" data-val="1">1</button>
+        <button class="pk-btn" data-val="2">2</button>
+        <button class="pk-btn" data-val="3">3</button>
+        <button class="pk-btn" data-val="4">4</button>
+        <button class="pk-btn" data-val="5">5</button>
+        <button class="pk-btn" data-val="6">6</button>
+        <button class="pk-btn" data-val="7">7</button>
+        <button class="pk-btn" data-val="8">8</button>
+        <button class="pk-btn" data-val="9">9</button>
+        <button class="pk-btn pk-clear" id="pk-clear" data-val="clear">⌫</button>
+        <button class="pk-btn" data-val="0">0</button>
+        <button class="pk-btn pk-enter" id="pk-enter" data-val="enter">💗</button>
+      </div>
+      <p class="passcode-hint">Hint: The day you were born 🌸</p>
+    </div>
+  </div>
+
   <!-- LOADING SCREEN -->
   <div id="loading-screen">
     <div class="loading-flowers">
@@ -58,7 +93,7 @@
   </div>
 
   <!-- ========== SECTION 1: INTRO ========== -->
-  <section id="intro-section" class="section full-screen">
+  <section id="intro-section" class="section full-screen hidden-section">
     <div class="flower-bg-anim" aria-hidden="true"></div>
     <div class="sparkle-field" id="intro-sparkles"></div>
     <div class="intro-content">
@@ -261,6 +296,19 @@
           <div class="heart-react">❤️</div>
         </div>
       </div>
+      <div class="timeline-item right reveal-item">
+        <div class="timeline-dot">💗</div>
+        <div class="polaroid-card">
+          <div class="polaroid-img" style="background:#ffd6e8">
+            <img src="picture/photo12.jpeg" alt="Memory 12">
+          </div>
+          <div class="polaroid-caption">
+            <span class="mem-date">📅 June 5, 2026</span>
+            <p>Early Celebration for your birthday baby! And first time at Aegyo Cafe that we always wanted to try hehe! (kaso ayaw mo mag send picture hihingi ako eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee) 🌺</p>
+          </div>
+          <div class="heart-react">❤️</div>
+        </div>
+      </div>
 
     </div>
     <div class="section-nav">
@@ -299,8 +347,13 @@ I love you because every future I imagine somehow always includes you. Ikaw yung
 And most importantly, I love you simply because you are you. Your flaws, your imperfections, your softness, your attitude, your heart, your smile, your soul — everything about you became something I cherish deeply. You are not just someone I love, baby… you are the person my heart feels safest with. Happy birthday mahallll!!💖
  ">💞</div>
     </div>
-    <div class="reason-reveal hidden" id="reason-reveal">
-      <div class="reason-text" id="reason-text"></div>
+    <!-- REASON POPUP MODAL -->
+    <div class="reason-modal hidden" id="reason-modal">
+      <div class="reason-modal-overlay" id="reason-modal-overlay"></div>
+      <div class="reason-modal-content">
+        <button class="reason-modal-close" id="reason-modal-close">✕</button>
+        <div class="reason-text" id="reason-text"></div>
+      </div>
     </div>
     <div class="section-nav">
       <button class="next-btn" id="next-to-countdown">Next: Our Clock →</button>
@@ -372,11 +425,19 @@ And most importantly, I love you simply because you are you. Your flaws, your im
           <p>On this birthday, I want you to know: <strong>you are the best thing that has ever happened to me.</strong></p>
           <p>🌷 Baby, hindi ko alam kung paano ko sisimulan ito dahil kahit gaano kahaba ang sabihin ko, parang hindi pa rin sapat para maiparamdam kung gaano kita kamahal. Pero sa espesyal na araw na ito, gusto kong malaman mo kung gaano mo binago ang buhay ko. Dumating ka sa panahon na hindi ko inaasahan, at hindi ko namalayan na unti-unti mo nang pinupuno ng saya ang mga araw ko. Mula nang makilala kita, naging mas makulay ang mundo ko. Ang mga simpleng bagay na dati ay okay lang, naging espesyal dahil kasama ka na sa bawat alaala ko.</p>
 
-<p>💖 Paborito ko pa rin yung mga pagkakataong tumatawa ka nang todo. Yung tipong hindi mo mapigilan ang sarili mo at napapangiti na lang din ako habang nakatingin sa'yo. Sa totoo lang, isa sa mga paborito kong tanawin sa buong mundo ang ngiti mo. Kapag masaya ka, parang masaya na rin ang puso ko. At kapag malungkot ka, gusto kong gawin ang lahat para lang makita ulit ang mga mata mong kumikislap habang nakangiti.</p>
+<p>💖 Alam mo ba na sobrang saya ako sa kung anong meron tayo ngayon? You give me strength in everything, ga. You are actually one of my biggest hopes and one of my greatest blessings. Sa tuwing napapagod ako, ikaw yung isa sa mga dahilan kung bakit nagpapatuloy pa rin ako. Kapag may mga araw na hindi maganda ang takbo ng lahat, sapat na minsan na makausap ka para gumaan ang pakiramdam ko.</p>
 
-<p>✨ Alam mo ba na sobrang saya ako sa kung anong meron tayo ngayon? You give me strength in everything, ga. You are actually one of my biggest hopes and one of my greatest blessings. Sa tuwing napapagod ako, ikaw yung isa sa mga dahilan kung bakit nagpapatuloy pa rin ako. Kapag may mga araw na hindi maganda ang takbo ng lahat, sapat na minsan na makausap ka para gumaan ang pakiramdam ko.</p>
+<p>✨ Salamat dahil lagi kang nandiyan. Salamat sa pagmamahal, pag-unawa, at sa lahat ng maliliit na bagay na ginagawa mo para mapasaya ako. Hindi mo siguro alam pero sobrang laki ng epekto mo sa buhay ko. Mas naging masaya ako, mas naging motivated ako, at mas naging buo ako dahil sa'yo. Pinaparamdam mo sa akin araw-araw kung ano ang ibig sabihin ng tunay na pagmamahal.</p>
 
-<p>💕 Salamat dahil lagi kang nandiyan. Salamat sa pagmamahal, pag-unawa, at sa lahat ng maliliit na bagay na ginagawa mo para mapasaya ako. Hindi mo siguro alam pero sobrang laki ng epekto mo sa buhay ko. Mas naging masaya ako, mas naging motivated ako, at mas naging buo ako dahil sa'yo. Pinaparamdam mo sa akin araw-araw kung ano ang ibig sabihin ng tunay na pagmamahal.</p>
+<p>💕 Baby, gusto kong magsorry sa lahat ng mga pagkukulang at pagkakamali ko, lalo na sa 
+  mga naging away natin nitong mga nakaraang araw. Alam kong may mga pagkakataong nasaktan
+   kita, napagod kita, at nadagdagan ko ang bigat na nararamdaman mo na dapat maging 
+   dahilan ng saya at kapanatagan mo. Hindi ko ipinagmamalaki ang mga pagkakataong naging 
+   dahilan ako ng lungkot mo, at humihingi ako ng tawad sa lahat ng mga salitang o kilos na 
+   nakapagpasakit sa puso mo. Hindi man mababago ng sorry ang mga
+     nangyari, syempre babawi ako sa pamamagitan ng mas maayos na pagmamahal, pagunawa,
+      at pagpapahalaga sayo araw araw at sa lahat lahat. Salamat dahil sa kabila ng mga hindi natin 
+      pagkakaintindihan, pinili mo pa ring manatili at subukan tayong ayusin.</p>
 
 <p>🌸 At habang tumatagal, mas lalo kong nakikita ang future ko kasama ka. Gusto kong maranasan pa natin ang mas marami pang memories, mas marami pang tawanan, mas marami pang date, mas marami pang adventures, at mas marami pang birthdays na sabay nating  icecelebrate. Gusto kong maging bahagi ng lahat ng pangarap mo at gusto kong ikaw rin ang kasama ko habang tinutupad ko ang akin.</p>
 
@@ -398,13 +459,14 @@ And most importantly, I love you simply because you are you. Your flaws, your im
   <section id="gallery-section" class="section hidden-section">
     <div class="section-title-wrap">
       <h2 class="section-title">Our Gallery of Us</h2>
+      <p class="section-sub">There's so manyyy bebiiiiii but yan mga napili kooooooo</p >
     </div>
     <div class="gallery-grid" id="gallery-grid">
       <div class="gallery-item" data-caption="The beginning of everything ✨">
         <img src="picture/photo2.jpg" alt="Photo 1">
       </div>
       <div class="gallery-item tall" data-caption="Para bang Mom and Dad! 🌸">
-        <img src="picture/gallery1.jpeg" alt="Photo 2">
+        <img src="picture/Gallery1.jpeg" alt="Photo 2">
       </div>
       <div class="gallery-item" data-caption="Cutee sooo muchhhh! 🗺️">
         <img src="picture/gallery3.jpeg" alt="Photo 3">
@@ -421,7 +483,7 @@ And most importantly, I love you simply because you are you. Your flaws, your im
       <div class="gallery-item tall" data-caption="Sexy in uniform bebi! 🦋"> 
         <img src="picture/gallery7.jpeg" alt="Photo 7">
       </div>
-      <div class="gallery-item" data-caption="Sleepwell and baby ko 📖">
+      <div class="gallery-item" data-caption="Sleepwell and baby ko MWHEHEHEHEHEHHE my hachibichibichiiiii! ✨">
         <img src="picture/gallery8.jpeg" alt="Photo 8">
       </div>
     </div>
