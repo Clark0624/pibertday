@@ -281,11 +281,11 @@ function buildBottomFlowers() {
    ============================================================ */
 function placeEasterEggs() {
   const msgs = [
-    '🌸 Secret found! She loves you endlessly.',
-    '💗 Hidden note: You are the most beautiful thing in his world.',
-    '✨ Easter egg! His favourite memory: the first time you laughed together.',
-    '💌 Secret: He falls for you a little more every single day.',
-    '🦋 Butterfly kiss! Stay magical, always.',
+    '🌸 Secret found! I love you endlessly.',
+    '💗 Hidden note: You are the most beautiful thing in my world.',
+    '✨ Easter egg! My favorite memory is being with you always!',
+    '💌 Secret: I fall for you  more every single day.',
+    '🦋 Butterfly kiss! Stay magical, always. I LOVE YOUUU!',
   ];
   msgs.forEach((msg, i) => {
     const el = document.createElement('div');
