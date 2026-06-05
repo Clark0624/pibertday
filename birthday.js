@@ -32,15 +32,11 @@ I love you more than words can explain, more than songs can express, and more th
 
 Happy Birthday again, baby. Thank you for existing and for being mine. 💕✨🌸`,
 
-  /* ── Music playlist ──
-     Add your mp3 file paths to src.
-     Example: src: 'music/perfect.mp3'
-     Leave src as null if you have no audio files. ── */
+  /* ── Music playlist ── ── */
   playlist: [
     { title: 'Perfect — Ed Sheeran',    src: 'music/Ed Sheeran - Perfect.mp3' },
-    { title: 'All of Me — John Legend', src: 'music/John Legend - All of Me.mp3' },
-    { title: 'Thinking Out Loud',       src: 'music/Ed Sheeran - Thinking Out Loud.mp3' },
-    { title: 'You Are the Best Thing',  src: 'music/John Legend - You Are the Best Thing.mp3' },
+    { title: 'Bruno Mars - Just The Way You Are', src: 'music/Bruno Mars - Just The Way You Are (Lyrics).mp3' },
+    { title: 'Palagi - TJxKZ',       src: 'music/PALAGI - TJxKZ  LIVE SESSIONS.mp3' },
   ],
 
   loadDuration: 2800,   // How long the loading screen shows (ms)
@@ -1164,7 +1160,7 @@ function createPasscodePetals() {
         duration: 8000 + Math.random() * 6000,
         iterations: Infinity,
         delay: Math.random() * 5000
-      }
+      } 
     );
 
     container.appendChild(petal);
