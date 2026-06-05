@@ -86,10 +86,22 @@ function throttle(fn, ms) {
    ============================================================ */
 function initLoading() {
   const screen = document.getElementById('loading-screen');
+  const introSection = document.getElementById('intro-section');
+  if (!screen) return;
+  
+  /* Show the loading screen */
+  screen.classList.remove('hidden-section', 'fade-out');
+  screen.style.display = '';
+  
   setTimeout(() => {
     screen.classList.add('fade-out');
     setTimeout(() => {
       screen.style.display = 'none';
+      /* Show intro section and initialize animations */
+      if (introSection) {
+        introSection.classList.remove('hidden-section');
+        introSection.style.display = '';
+      }
       initIntroAnimations();
     }, 800);
   }, CONFIG.loadDuration);
@@ -461,23 +473,52 @@ function initTimelineObserver() {
    ============================================================ */
 function initReasons() {
   const cards  = $$('.reason-card');
-  const reveal = document.getElementById('reason-reveal');
+  const modal  = document.getElementById('reason-modal');
   const text   = document.getElementById('reason-text');
+  const closeBtn = document.getElementById('reason-modal-close');
+  const overlay = document.getElementById('reason-modal-overlay');
+  let typeTimer = null;
+
+  /* Close modal when close button is clicked */
+  closeBtn.addEventListener('click', () => {
+    clearTimeout(typeTimer);
+    modal.classList.add('hidden');
+    cards.forEach(c => c.classList.remove('opened'));
+  });
+
+  /* Close modal when overlay is clicked */
+  overlay.addEventListener('click', () => {
+    clearTimeout(typeTimer);
+    modal.classList.add('hidden');
+    cards.forEach(c => c.classList.remove('opened'));
+  });
+
+  /* Close modal on Escape key */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+      clearTimeout(typeTimer);
+      modal.classList.add('hidden');
+      cards.forEach(c => c.classList.remove('opened'));
+    }
+  });
 
   cards.forEach(card => {
     card.addEventListener('click', () => {
       const reason = card.dataset.reason;
       cards.forEach(c => c.classList.remove('opened'));
       card.classList.add('opened');
+      
+      /* Clear any previous typewriter animation */
+      clearTimeout(typeTimer);
       text.textContent = '';
-      reveal.classList.remove('hidden');
+      modal.classList.remove('hidden');
 
-      /* Inline typewriter for reasons */
+      /* Typewriter effect for reasons */
       let i = 0;
       function tick() {
         if (i < reason.length) {
           text.textContent += reason[i++];
-          setTimeout(tick, 22);
+          typeTimer = setTimeout(tick, 18);
         }
       }
       tick();
@@ -976,4 +1017,164 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
 
   setTimeout(() => showToast('💗 Press "L" anytime for a love surprise!', 4000), 4500);
+});
+
+/* ============================================================
+   PASSCODE SCREEN
+   ============================================================ */
+
+const PASSCODE = "060605"; // Change to her birthday (MMDD)
+
+let enteredCode = "";
+
+function initPasscode() {
+  const passcodeScreen = document.getElementById("passcode-screen");
+  const keypad = document.getElementById("passcode-keypad");
+  const errorMsg = document.getElementById("passcode-error");
+  const icon = document.querySelector(".passcode-icon");
+
+  if (!passcodeScreen || !keypad) return;
+
+  createPasscodePetals();
+
+  keypad.addEventListener("click", (e) => {
+    const btn = e.target.closest(".pk-btn");
+    if (!btn) return;
+
+    const value = btn.dataset.val;
+
+    if (value === "clear") {
+      enteredCode = enteredCode.slice(0, -1);
+      updateDots();
+      return;
+    }
+
+    if (value === "enter") {
+      checkPasscode();
+      return;
+    }
+
+    if (enteredCode.length >= 6) return;
+
+    enteredCode += value;
+    updateDots();
+
+    if (enteredCode.length === 6) {
+      setTimeout(checkPasscode, 200);
+    }
+  });
+
+  function updateDots() {
+    for (let i = 0; i < 6; i++) {
+      const dot = document.getElementById(`pdot-${i}`);
+
+      if (!dot) continue;
+
+      if (i < enteredCode.length) {
+        dot.classList.add("filled");
+      } else {
+        dot.classList.remove("filled");
+      }
+
+      dot.classList.remove("error");
+    }
+  }
+
+  function checkPasscode() {
+    if (enteredCode !== PASSCODE) {
+      errorMsg.classList.remove("hidden");
+      keypad.classList.add("shake");
+
+      document.querySelectorAll(".pdot").forEach(dot => {
+        dot.classList.add("error");
+      });
+
+      navigator.vibrate?.(150);
+
+      setTimeout(() => {
+        keypad.classList.remove("shake");
+        document.querySelectorAll(".pdot").forEach(dot => {
+          dot.classList.remove("filled", "error");
+        });
+
+        enteredCode = "";
+      }, 700);
+
+      return;
+    }
+
+    errorMsg.classList.add("hidden");
+
+    icon.textContent = "💖";
+    icon.classList.add("success");
+
+    navigator.vibrate?.([100, 50, 100]);
+
+    setTimeout(() => {
+      passcodeScreen.classList.add("fade-out");
+
+      setTimeout(() => {
+        passcodeScreen.style.display = "none";
+
+        // Start loading screen after unlock
+        initLoading();
+      }, 800);
+    }, 600);
+  }
+}
+
+/* ============================================================
+   FLOATING PETALS
+   ============================================================ */
+
+function createPasscodePetals() {
+  const container = document.getElementById("passcode-petals");
+
+  if (!container) return;
+
+  const flowers = ["🌸", "🌺", "🌷", "💖", "✨"];
+
+  const amount = window.innerWidth < 768 ? 12 : 20;
+
+  for (let i = 0; i < amount; i++) {
+    const petal = document.createElement("span");
+
+    petal.textContent =
+      flowers[Math.floor(Math.random() * flowers.length)];
+
+    petal.style.position = "absolute";
+    petal.style.left = `${Math.random() * 100}%`;
+    petal.style.top = "-50px";
+    petal.style.fontSize = `${16 + Math.random() * 16}px`;
+    petal.style.opacity = "0.4";
+    petal.style.pointerEvents = "none";
+
+    petal.animate(
+      [
+        {
+          transform: "translateY(-50px) rotate(0deg)"
+        },
+        {
+          transform: `translateY(${window.innerHeight + 100}px)
+                      translateX(${Math.random() * 120 - 60}px)
+                      rotate(360deg)`
+        }
+      ],
+      {
+        duration: 8000 + Math.random() * 6000,
+        iterations: Infinity,
+        delay: Math.random() * 5000
+      }
+    );
+
+    container.appendChild(petal);
+  }
+}
+
+/* ============================================================
+   START
+   ============================================================ */
+
+document.addEventListener("DOMContentLoaded", () => {
+  initPasscode();
 });
